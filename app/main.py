@@ -1,5 +1,5 @@
 from fastapi import FastAPI, APIRouter
-from app.api.routes import shipments, types
+from app.routes import shipments, types
 import uvicorn
 
 app = FastAPI(
