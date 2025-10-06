@@ -3,8 +3,8 @@ from app.routes import shipments, types
 from app.tasks.producer import periodic_producer
 from app.tasks.consumer import consume_delivery_tasks
 import uvicorn
-from contextlib import asynccontextmanager
 import asyncio
+from app.db.recreate_tables import create_tables_if_not_exist
 
 v1_routers = APIRouter(prefix='/v1', tags=['v1'])
         
@@ -19,6 +19,9 @@ app.include_router(types.router, prefix="/types", tags=["types"])
 
 @app.on_event("startup")
 async def startup_event():
+    
+    await create_tables_if_not_exist()
+    
     asyncio.create_task(periodic_producer())
     asyncio.create_task(consume_delivery_tasks())
 
