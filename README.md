@@ -63,15 +63,28 @@ app/
 
 ### 1. Clone repository
 ```bash
-git clone https://github.com/your-username/delivery-service.git
+git clone https://github.com/strix300/FastApiDeliveryService.git
 cd delivery-service
 ``` 
 
 ### 2. Create `.env` file
 ```env
-DATABASE_URL=postgresql+asyncpg://user:password@postgres_db:5432/delivery_db
+DATABASE_URL=postgresql+asyncpg://postgres:postgres@db:5432/delivery
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=delivery
+POSTGRES_HOST=db
+POSTGRES_PORT=5432
+
 REDIS_URL=redis://redis:6379/0
+
+KAFKA_BROKER_ID=1
+KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092
+KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092
+KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR=1
 KAFKA_BOOTSTRAP_SERVERS=kafka:9092
+ZOOKEEPER_CLIENT_PORT=2181
 ```
 
 ### 3. Run with Docker Compose

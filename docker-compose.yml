@@ -9,29 +9,36 @@ services:
       - .env
     depends_on:
       - db
+      - kafka
+      - redis
     volumes:
       - .:/app
 
   db:
     image: postgres:15
     container_name: postgres_db
+    env_file:
+      - .env
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: delivery
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
     ports:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
   kafka:
     image: confluentinc/cp-kafka:7.0.1
     container_name: kafka
+    env_file:
+      - .env
     environment:
-      KAFKA_BROKER_ID: 1
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
-      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      KAFKA_BROKER_ID: ${KAFKA_BROKER_ID}
+      KAFKA_ZOOKEEPER_CONNECT: ${KAFKA_ZOOKEEPER_CONNECT}
+      KAFKA_LISTENERS: ${KAFKA_LISTENERS}
+      KAFKA_ADVERTISED_LISTENERS: ${KAFKA_ADVERTISED_LISTENERS}
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: ${KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR}
     ports:
       - "9092:9092"
     depends_on:
@@ -40,8 +47,10 @@ services:
   zookeeper:
     image: wurstmeister/zookeeper:latest
     container_name: zookeeper
+    env_file:
+      - .env
     environment:
-      - ZOOKEEPER_CLIENT_PORT=2181
+      ZOOKEEPER_CLIENT_PORT: ${ZOOKEEPER_CLIENT_PORT}
     ports:
       - "2181:2181"
 
@@ -50,5 +59,6 @@ services:
     container_name: redis
     ports:
       - "6379:6379"
+
 volumes:
   postgres_data:
