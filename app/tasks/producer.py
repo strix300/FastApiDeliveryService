@@ -10,6 +10,6 @@ async def periodic_producer():
             message = {"action": "update_delivery_prices"}
             await producer.send_and_wait("delivery_tasks", json.dumps(message).encode("utf-8"))
             print("delivery_tasks produced")
-            await asyncio.sleep(360)
+            await asyncio.sleep(60)
     finally:
         await producer.stop()
