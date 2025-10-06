@@ -64,7 +64,7 @@ app/
 ### 1. Clone repository
 ```bash
 git clone https://github.com/strix300/FastApiDeliveryService.git
-cd delivery-service
+cd FastApiDeliveryService
 ``` 
 
 ### 2. Create `.env` file

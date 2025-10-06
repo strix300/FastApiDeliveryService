@@ -11,7 +11,7 @@ async def get_exchange_rate(valute: str = 'USD') -> float:
             response = await client.get(url)
             data = response.json()
             usd_rate = data['Valute'][valute]['Value']
-            await redis_client.set("usd_rate", usd_rate, ex=3600)
+            await redis_client.set("usd_rate", usd_rate, ex=1800)
             return float(usd_rate)
     return float(rate)
     
