@@ -4,14 +4,14 @@ from sqlalchemy.ext.asyncio import AsyncSession
 from app.core.db import get_session
 from app.utils.session_id import get_or_create_session
 from app.services.shipments_service import get_user_shipments_service, create_shipment_service, get_shipment_service
-from app.db.types import ShipmentSchema, ShipmentAdd, ShipmentResponse
+from app.db.types import ShipmentSchema, ShipmentPaginatioResponse, ShipmentResponse
 
 router = APIRouter()
 
-@router.get("/", response_model=list[ShipmentResponse])
-async def get_user_shipments(request: Request, response: Response, session: AsyncSession = Depends(get_session)):
+@router.get("/", response_model=ShipmentPaginatioResponse)
+async def get_user_shipments(request: Request, response: Response, session: AsyncSession = Depends(get_session), page: int = 1, limit: int = 1, type_id: int | None = None, delivery_calculated: bool | None = None):
     session_id = await get_or_create_session(request=request, response=response)
-    return await get_user_shipments_service(session, session_id)
+    return await get_user_shipments_service(session, session_id, page, limit, type_id, delivery_calculated)
 
 @router.get("/{shipment_id}", response_model=list[ShipmentResponse])
 async def get_user_shipments(shipment_id: int, request: Request, response: Response, session: AsyncSession = Depends(get_session)):

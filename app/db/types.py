@@ -15,7 +15,6 @@ class ShipmentSchema(BaseModel):
 class ShipmentAdd(ShipmentSchema):
     id: int
     delivery_cost: float | None = None
-    
 
 class ShipmentResponse(BaseModel):
     id: int
@@ -24,3 +23,10 @@ class ShipmentResponse(BaseModel):
     content_cost: float
     type: str  
     delivery_cost: float | None = None
+
+class ShipmentPaginatioResponse(BaseModel):
+    page: int
+    limit: int
+    total: int
+    pages: int
+    items: list[ShipmentResponse]
