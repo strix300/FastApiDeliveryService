@@ -74,7 +74,7 @@ async def get_shipment_service(shipment_id: int, session: AsyncSession, session_
     for s in shipment
 ]    
 
-async def create_shipment_service(session: AsyncSession, shipment: ShipmentSchema, session_id: str):
+async def create_shipment_service(session: AsyncSession, shipment: ShipmentSchema, session_id: str) -> Shipment:
     new_shipment = Shipment(
         name=shipment.name,
         weight=shipment.weight,
@@ -88,7 +88,7 @@ async def create_shipment_service(session: AsyncSession, shipment: ShipmentSchem
     await session.refresh(new_shipment)
     return new_shipment
 
-async def set_delivery_prices(session: AsyncSession):
+async def set_delivery_prices(session: AsyncSession) -> int:
     result = await session.execute(
         select(Shipment).where(Shipment.delivery_cost.is_(None))
     )
